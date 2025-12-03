@@ -1,0 +1,47 @@
+[gd_scene load_steps=10 format=3 uid="uid://b7agk2p24fsqd"]
+
+[ext_resource type="Script" uid="uid://c33l4vy1pls3k" path="res://addons/fluid_simulation/FluidParticle.cs" id="1_acrdr"]
+[ext_resource type="Shader" uid="uid://bfkg56sco7dma" path="res://addons/fluid_simulation/graphics_rendering/fluid_particle.gdshader" id="2_ka1xg"]
+[ext_resource type="Gradient" uid="uid://bdqceoxg76j6" path="res://addons/fluid_simulation/fluid_types/water_fluid/fluid_speed_visuals.tres" id="3_il4c7"]
+[ext_resource type="Script" uid="uid://by267hsep1gfb" path="res://addons/fluid_simulation/graphics_rendering/particle_graphics.gd" id="4_oh0nd"]
+[ext_resource type="Texture2D" uid="uid://cfh055n6blxyf" path="res://addons/debug_assets/square_128px.png" id="4_p2vmm"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3ali7"]
+gradient = ExtResource("3_il4c7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gjiot"]
+shader = ExtResource("2_ka1xg")
+shader_parameter/color = Color(0.357, 0.808, 0.98, 1)
+shader_parameter/gradient_texture = SubResource("GradientTexture1D_3ali7")
+shader_parameter/velocity_max = 100.0
+shader_parameter/frequency = 0.5
+shader_parameter/amplitude = 0.5
+shader_parameter/wave_speed = 2.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_87g5l"]
+size = Vector2(16, 16)
+subdivide_width = 4
+subdivide_depth = 4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4jsdu"]
+radius = 8.0
+
+[node name="FluidParticle" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+script = ExtResource("1_acrdr")
+_drawSmoothingRadius = true
+
+[node name="Graphics" type="MeshInstance2D" parent="." node_paths=PackedStringArray("fluid")]
+visibility_layer = 2
+material = SubResource("ShaderMaterial_gjiot")
+instance_shader_parameters/velocity = Vector2(0, 0)
+scale = Vector2(1.3, 1.3)
+mesh = SubResource("QuadMesh_87g5l")
+texture = ExtResource("4_p2vmm")
+script = ExtResource("4_oh0nd")
+fluid = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_4jsdu")

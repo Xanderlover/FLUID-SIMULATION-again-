@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bv8uw72aghwq6"]
+
+[ext_resource type="Script" uid="uid://4q1opvm5b0t4" path="res://addons/fluid_simulation/fluid_mechanics/external_forces/FluidInteraction.cs" id="1_5nk5m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5nk5m"]
+radius = 50.0
+
+[node name="InteractionForce" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_5nk5m")
+forceStrength = 750.0
+metadata/_custom_type_script = "uid://4q1opvm5b0t4"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5nk5m")
+debug_color = Color(0, 0.5950001, 0.7, 0)
+
+[connection signal="body_entered" from="." to="." method="OnBodiesEntered"]
+[connection signal="body_exited" from="." to="." method="OnBodiesExited"]
