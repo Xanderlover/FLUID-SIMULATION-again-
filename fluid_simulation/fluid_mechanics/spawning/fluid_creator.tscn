@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6dyqto0wynm6"]
+
+[ext_resource type="Script" uid="uid://bij4itpkkudkj" path="res://addons/fluid_simulation/fluid_mechanics/spawning/fluid_creator.gd" id="1_4pimq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4pimq"]
+radius = 4.0
+
+[node name="FluidCreator" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_4pimq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4pimq")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

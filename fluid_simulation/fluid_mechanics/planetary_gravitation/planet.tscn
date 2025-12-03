@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://iyxol0li3x5a"]
+
+[ext_resource type="Script" uid="uid://d4nfjte1n6afc" path="res://addons/fluid_simulation/fluid_mechanics/planetary_gravitation/planet_gravity.gd" id="1_05544"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yq0g1"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_05544"]
+radius = 98.24968
+
+[node name="Planet" type="AnimatableBody2D"]
+collision_mask = 3
+script = ExtResource("1_05544")
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yq0g1")
+disabled = true
+
+[node name="GravitationalArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="Collider" type="CollisionShape2D" parent="GravitationalArea"]
+shape = SubResource("CircleShape2D_05544")
+debug_color = Color(0.5254902, 0.6, 0.69803923, 0.41960785)
+
+[connection signal="body_entered" from="GravitationalArea" to="." method="_on_gravitational_area_body_entered"]
+[connection signal="body_exited" from="GravitationalArea" to="." method="_on_gravitational_area_body_exited"]

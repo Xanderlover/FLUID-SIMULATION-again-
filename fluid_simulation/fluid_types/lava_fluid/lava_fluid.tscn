@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://cbn6nnnjyjov0"]
+
+[ext_resource type="Script" uid="uid://c33l4vy1pls3k" path="res://addons/fluid_simulation/FluidParticle.cs" id="1_kq42e"]
+[ext_resource type="Shader" uid="uid://bfkg56sco7dma" path="res://addons/fluid_simulation/graphics_rendering/fluid_particle.gdshader" id="2_nps6y"]
+[ext_resource type="Gradient" uid="uid://7qbg36uyxusl" path="res://addons/fluid_simulation/fluid_types/lava_fluid/lava.tres" id="3_h38cl"]
+[ext_resource type="Script" uid="uid://by267hsep1gfb" path="res://addons/fluid_simulation/graphics_rendering/particle_graphics.gd" id="3_u0wl0"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_h38cl"]
+gradient = ExtResource("3_h38cl")
+use_hdr = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u0wl0"]
+shader = ExtResource("2_nps6y")
+shader_parameter/color = Color(0.357, 0.808, 0.98, 1)
+shader_parameter/gradient_texture = SubResource("GradientTexture1D_h38cl")
+shader_parameter/velocity_max = 100.0
+shader_parameter/frequency = 0.5
+shader_parameter/amplitude = 0.5
+shader_parameter/wave_speed = 2.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_87g5l"]
+size = Vector2(16, 16)
+subdivide_width = 4
+subdivide_depth = 4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4jsdu"]
+radius = 8.0
+
+[node name="LavaFluid" type="CharacterBody2D"]
+z_index = -1
+scale = Vector2(0.35, 0.35)
+collision_layer = 2
+script = ExtResource("1_kq42e")
+mass = 3.0
+_smoothingRadius = 12.0
+_drawSmoothingRadius = true
+_smoothingRadiusColor = Color(1, 0, 0, 1)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." node_paths=PackedStringArray("fluid")]
+material = SubResource("ShaderMaterial_u0wl0")
+instance_shader_parameters/velocity = Vector2(0, 0)
+scale = Vector2(1.5, 1.5)
+mesh = SubResource("QuadMesh_87g5l")
+script = ExtResource("3_u0wl0")
+fluid = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_4jsdu")
